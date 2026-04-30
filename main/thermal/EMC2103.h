@@ -1,0 +1,40 @@
+#ifndef EMC2103_H_
+#define EMC2103_H_
+
+#include "i2c_bitaxe.h"
+
+#define EMC2103_I2CADDR_DEFAULT 0x2E ///< EMC2103 default i2c address
+
+#define EMC2103_EXTERNAL_TEMP1_MSB 0x02
+#define EMC2103_EXTERNAL_TEMP1_LSB 0x03
+#define EMC2103_EXTERNAL_TEMP2_MSB 0x04
+#define EMC2103_EXTERNAL_TEMP2_LSB 0x05
+
+#define EMC2103_TEMP_DIODE_FAULT 0x8000
+
+#define EMC2103_CONFIGURATION1 0x20
+#define EMC2103_CONFIGURATION2 0x21
+
+#define EMC2103_PWM_CONFIG  0x2A
+#define EMC2103_PWM_BASE_FREQ 0x2B
+
+#define EMC2103_FAN_SETTING 0x40
+#define EMC2103_PWM_DIVIDE  0x41
+#define EMC2103_FAN_CONFIG1 0x42
+#define EMC2103_FAN_CONFIG2 0x43
+
+#define EMC2103_TACH_LSB 0x4F
+#define EMC2103_TACH_MSB 0x4E
+
+#define EMC2103_LUT_CONFIG1 0x50
+
+#define EMC2103_PRODUCT_FEATURES 0xFC
+#define EMC2103_PRODUCT_ID 0xFD
+#define EMC2103_MANUFACTURER_ID 0xFE
+#define EMC2103_REVISION 0xFF
+
+void EMC2103_set_fan_speed(float);
+uint16_t EMC2103_get_fan_speed(void);
+esp_err_t EMC2103_init(bool);
+float EMC2103_get_external_temp(void);
+#endif /* EMC2103_H_ */
