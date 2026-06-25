@@ -1,0 +1,263 @@
+menu "Bitaxe Configuration"
+
+    menu "GPIO Pin Configuration"
+
+        config GPIO_BUTTON_BOOT
+            int "Boot button GPIO pin"
+            default 0
+            help
+                GPIO pin connected to the LED.
+
+        config GPIO_ASIC_RESET
+            int "ASIC reset GPIO pin"
+            default 1
+            help
+                GPIO pin connected to the Button.
+
+        config GPIO_ASIC_ENABLE
+            int "ASIC enable GPIO pin"
+            default 10
+            help
+                GPIO pin for I2C data line (SDA).
+
+        config GPIO_PLUG_SENSE
+            int "Barrel plug sense GPIO pin"
+            default 12
+            help
+                GPIO pin for I2C clock line (SCL).
+
+        config GPIO_I2C_SDA
+            int "I2C SDA Pin"
+            default 47
+            help
+                GPIO pin for I2C clock line (SCL).
+            
+        config GPIO_I2C_SCL
+            int "I2C SCL Pin"
+            default 48
+            help
+                GPIO pin for I2C clock line (SCL).
+            
+    endmenu
+    
+    config ASIC_VOLTAGE
+        int "ASIC Core Voltage (mV)"
+        range 1000 1800
+        default 1400
+        help
+            The core voltage to set the ASIC to. 1200 for BM1366, 1166 for BM1368, or 1150 for BM1370 is typical.
+
+    config ASIC_FREQUENCY
+        int "ASIC Hash Frequency (MHz)"
+        range 50 800
+        default 250
+        help
+            Default ASIC hash frequency in MHz.
+endmenu
+
+menu "Network Configuration"
+
+    config SOCKS5_PROXY_ENABLED
+        bool "Enable SOCKS5 proxy"
+        default n
+        help
+            Route outbound stratum TCP connections through a SOCKS5 proxy when configured.
+
+    config SOCKS5_PROXY_HOST
+        string "SOCKS5 proxy host"
+        default ""
+        help
+            SOCKS5 proxy host or IP address.
+
+    config SOCKS5_PROXY_PORT
+        int "SOCKS5 proxy port"
+        range 0 65535
+        default 1080
+        help
+            SOCKS5 proxy port.
+
+    config SOCKS5_PROXY_USER
+        string "SOCKS5 proxy username"
+        default ""
+        help
+            Optional SOCKS5 username. Leave empty for no-auth proxies.
+
+    config SOCKS5_PROXY_PASS
+        string "SOCKS5 proxy password"
+        default ""
+        help
+            Optional SOCKS5 password.
+
+endmenu
+
+menu "Stratum Configuration"
+
+    config STRATUM_PROTOCOL
+        int "Stratum protocol"
+        range 1 2
+        default 1
+        help
+            Stratum protocol for the primary pool. 1 = Stratum V1, 2 = Stratum V2.
+
+    config STRATUM_URL
+        string "Stratum Address"
+        default "public-pool.io"
+        help
+            The example will connect to this Stratum pool address.
+
+    config STRATUM_PORT
+        int "Stratum Port"
+        range 0 65535
+        default 21496
+        help
+            The stratum server port to connect to.
+
+    config FALLBACK_STRATUM_URL
+        string "Fallback Stratum Address"
+        default "solo.ckpool.org"
+        help
+            The example will connect to this Stratum pool address if the primary fails.
+
+    config FALLBACK_STRATUM_PORT
+        int "Fallback Stratum Port"
+        range 0 65535
+        default 3333
+        help
+            The stratum server port to connect to if the primary fails.
+
+    config FALLBACK_STRATUM_PROTOCOL
+        int "Fallback Stratum protocol"
+        range 1 2
+        default 1
+        help
+            Stratum protocol for the fallback pool. 1 = Stratum V1, 2 = Stratum V2.
+
+    config SV2_HOST
+        string "SV2 Stratum Address"
+        default ""
+        help
+            Primary Stratum V2 endpoint host. Do not include scheme or port.
+
+    config SV2_PORT
+        int "SV2 Stratum Port"
+        range 0 65535
+        default 0
+        help
+            Primary Stratum V2 endpoint port.
+
+    config SV2_AUTHORITY_PUBLIC_KEY
+        string "SV2 authority public key"
+        default ""
+        help
+            Primary SV2 authority public key used to verify the pool Noise certificate.
+
+    config FALLBACK_SV2_HOST
+        string "Fallback SV2 Stratum Address"
+        default ""
+        help
+            Fallback Stratum V2 endpoint host. Do not include scheme or port.
+
+    config FALLBACK_SV2_PORT
+        int "Fallback SV2 Stratum Port"
+        range 0 65535
+        default 0
+        help
+            Fallback Stratum V2 endpoint port.
+
+    config FALLBACK_SV2_AUTHORITY_PUBLIC_KEY
+        string "Fallback SV2 authority public key"
+        default ""
+        help
+            Fallback SV2 authority public key used to verify the pool Noise certificate.
+
+    config SV2_ENFORCE_CERTIFICATE_TIME
+        bool "Enforce SV2 certificate time window"
+        default n
+        help
+            Reject SV2 Noise certificates whose valid_from/not_valid_after window
+            does not include the local system clock. Leave this disabled for
+            pool compatibility; the configured SV2 authority public key still
+            verifies the pool certificate signature.
+
+    config STRATUM_USER
+        string "Stratum username"
+        default "replace-this-with-your-btc-address.bitaxe"
+        help
+            Stratum user to use with pool
+
+    config STRATUM_PW
+        string "Stratum password"
+        default "x"
+        help
+            Stratum password to use with pool
+
+    config FALLBACK_STRATUM_USER
+        string "Fallback Stratum username"
+        default "replace-this-with-your-btc-address.bitaxe"
+        help
+            Fallback Stratum user to use with pool
+
+    config FALLBACK_STRATUM_PW
+        string "Fallback Stratum password"
+        default "x"
+        help
+            Fallback Stratum password to use with pool
+
+    config STRATUM_DIFFICULTY
+        int "Stratum default difficulty"
+        default 10000
+        help
+            A starting difficulty to use with the pool. 0 disables mining.suggest_difficulty.
+
+    config STRICT_HEADER_COVERAGE
+        bool "Strict header coverage"
+        default n
+        help
+            Keep the ASIC dispatch interval fixed instead of adapting it from
+            queue feedback. Header cursor advancement is deterministic in all
+            builds; this option favors search-space accounting over throughput
+            when queue pacing would otherwise speed up or slow down dispatch.
+
+    config ASIC_HOST_VERSION_BITS
+        int "Host-expanded version rolling bits"
+        range 0 16
+        default 10
+        help
+            Number of pool-provided version-rolling bits reserved for host-side
+            job windows before advancing extraNonce2. The default maps one
+            extraNonce2 value across 16 host version windows when the pool
+            grants at least 4 version-rolling bits. Remaining pool mask bits
+            are left for the ASIC's internal version rolling.
+            Higher values can reduce extraNonce2 consumption further without
+            duplicating work, but they also leave fewer version bits for the
+            ASIC's internal version rolling mask.
+
+    config ASIC_DISPATCH_SAFETY_MARGIN_PERCENT
+        int "ASIC dispatch safety margin (%)"
+        range 0 50
+        default 1
+        help
+            Increase the computed ASIC job dispatch interval by this percentage.
+            This keeps the host slightly behind the theoretical 2^32 nonce
+            completion time so active job slots are less likely to be reused
+            before the ASIC has fully searched them.
+
+    config ASIC_DISPATCH_OBSERVED_HASHRATE_MIN_SAMPLES
+        int "ASIC observed hashrate min samples"
+        range 1 100
+        default 4
+        help
+            Minimum number of ASIC-difficulty nonce observations required
+            before the host trusts the observed hashrate enough to slow down
+            job dispatch.
+
+    config ASIC_DISPATCH_OBSERVED_HASHRATE_MIN_DELTA_PERCENT
+        int "ASIC observed hashrate delta threshold (%)"
+        range 0 50
+        default 5
+        help
+            Only slow down dispatch when the observed hashrate is at least this
+            much lower than the nominal hashrate derived from configured
+            frequency and ASIC work units. Higher values reduce jitter.
+
+endmenu
