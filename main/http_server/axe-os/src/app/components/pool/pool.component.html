@@ -1,0 +1,157 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Pool Configuration</h5>
+            <form [formGroup]="form" *ngIf="form != null">
+        <div class="field grid p-fluid">
+            <label htmlFor="stratumProtocol" class="col-12 mb-2 md:col-2 md:mb-0">Primary Protocol:</label>
+            <div class="col-12 md:col-10">
+                <select id="stratumProtocol" formControlName="stratumProtocol" class="p-inputtext p-component">
+                    <option [ngValue]="1">Stratum V1</option>
+                    <option [ngValue]="2">Stratum V2</option>
+                </select>
+            </div>
+        </div>
+        <ng-container *ngIf="!primaryUsesSv2">
+            <div class="field grid p-fluid">
+                <label htmlFor="stratumURL" class="col-12 mb-2 md:col-2 md:mb-0">Stratum Host:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="stratumURL" type="text" formControlName="stratumURL" />
+                    <div>
+                        <small>Do not include 'stratum+tcp://' or port.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="field grid p-fluid">
+                <label htmlFor="stratumPort" class="col-12 mb-2 md:col-2 md:mb-0">Stratum Port:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="stratumPort" formControlName="stratumPort" type="number" />
+                </div>
+            </div>
+            <div class="field grid p-fluid">
+                <label htmlFor="stratumUser" class="col-12 mb-2 md:col-2 md:mb-0">Stratum User:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="stratumUser" formControlName="stratumUser" type="text" />
+                </div>
+            </div>
+            <div class="field grid p-fluid">
+                <label htmlFor="stratumPassword" class="col-12 mb-2 md:col-2 md:mb-0">Stratum Password:</label>
+                <div class="col-12 md:col-10 p-input-icon-right">
+                    <i *ngIf="form.get('stratumPassword')?.dirty" class="pi"
+                       [ngClass]="{'pi-eye': !showStratumPassword, 'pi-eye-slash': showStratumPassword}"
+                       (click)="toggleStratumPasswordVisibility()" style="cursor: pointer;"></i>
+                    <input pInputText id="stratumPassword" formControlName="stratumPassword"
+                           [type]="showStratumPassword ? 'text' : 'password'"
+                           placeholder="Enter stratum password" />
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="primaryUsesSv2">
+            <div class="field grid p-fluid">
+                <label htmlFor="sv2Host" class="col-12 mb-2 md:col-2 md:mb-0">SV2 Host:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="sv2Host" type="text" formControlName="sv2Host" />
+                </div>
+            </div>
+            <div class="field grid p-fluid">
+                <label htmlFor="sv2Port" class="col-12 mb-2 md:col-2 md:mb-0">SV2 Port:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="sv2Port" formControlName="sv2Port" type="number" />
+                </div>
+            </div>
+            <div class="field grid p-fluid">
+                <label htmlFor="stratumUser" class="col-12 mb-2 md:col-2 md:mb-0">SV2 User:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="stratumUser" formControlName="stratumUser" type="text" />
+                </div>
+            </div>
+            <div class="field grid p-fluid">
+                <label htmlFor="sv2AuthorityPublicKey" class="col-12 mb-2 md:col-2 md:mb-0">SV2 Authority Key:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="sv2AuthorityPublicKey" type="text" formControlName="sv2AuthorityPublicKey" />
+                </div>
+            </div>
+        </ng-container>
+        <div class="field grid p-fluid">
+            <label htmlFor="fallbackStratumProtocol" class="col-12 mb-2 md:col-2 md:mb-0">Fallback Protocol:</label>
+            <div class="col-12 md:col-10">
+                <select id="fallbackStratumProtocol" formControlName="fallbackStratumProtocol" class="p-inputtext p-component">
+                    <option [ngValue]="1">Stratum V1</option>
+                    <option [ngValue]="2">Stratum V2</option>
+                </select>
+            </div>
+        </div>
+        <ng-container *ngIf="!fallbackUsesSv2">
+            <div class="field grid p-fluid">
+                <label htmlFor="fallbackStratumURL" class="col-12 mb-2 md:col-2 md:mb-0">Fallback Stratum Host:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="fallbackStratumURL" type="text" formControlName="fallbackStratumURL" />
+                    <div>
+                        <small>Do not include 'stratum+tcp://' or port.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="field grid p-fluid">
+                <label htmlFor="fallbackStratumPort" class="col-12 mb-2 md:col-2 md:mb-0">Fallback Stratum Port:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="fallbackStratumPort" formControlName="fallbackStratumPort" type="number" />
+                </div>
+            </div>
+            <div class="field grid p-fluid">
+                <label htmlFor="fallbackStratumUser" class="col-12 mb-2 md:col-2 md:mb-0">Fallback Stratum User:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="fallbackStratumUser" formControlName="fallbackStratumUser" type="text" />
+                </div>
+            </div>
+            <div class="field grid p-fluid">
+                <label htmlFor="fallbackStratumPassword" class="col-12 mb-2 md:col-2 md:mb-0">Fallback Stratum Password:</label>
+                <div class="col-12 md:col-10 p-input-icon-right">
+                    <i *ngIf="form.get('fallbackStratumPassword')?.dirty" class="pi"
+                       [ngClass]="{'pi-eye': !showFallbackStratumPassword, 'pi-eye-slash': showFallbackStratumPassword}"
+                       (click)="toggleFallbackStratumPasswordVisibility()" style="cursor: pointer;"></i>
+                    <input pInputText id="fallbackStratumPassword" formControlName="fallbackStratumPassword"
+                           [type]="showFallbackStratumPassword ? 'text' : 'password'"
+                           placeholder="Enter fallback stratum password" />
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="fallbackUsesSv2">
+            <div class="field grid p-fluid">
+                <label htmlFor="fallbackSv2Host" class="col-12 mb-2 md:col-2 md:mb-0">Fallback SV2 Host:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="fallbackSv2Host" type="text" formControlName="fallbackSv2Host" />
+                </div>
+            </div>
+            <div class="field grid p-fluid">
+                <label htmlFor="fallbackSv2Port" class="col-12 mb-2 md:col-2 md:mb-0">Fallback SV2 Port:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="fallbackSv2Port" formControlName="fallbackSv2Port" type="number" />
+                </div>
+            </div>
+            <div class="field grid p-fluid">
+                <label htmlFor="fallbackStratumUser" class="col-12 mb-2 md:col-2 md:mb-0">Fallback SV2 User:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="fallbackStratumUser" formControlName="fallbackStratumUser" type="text" />
+                </div>
+            </div>
+            <div class="field grid p-fluid">
+                <label htmlFor="fallbackSv2AuthorityPublicKey" class="col-12 mb-2 md:col-2 md:mb-0">Fallback SV2 Key:</label>
+                <div class="col-12 md:col-10">
+                    <input pInputText id="fallbackSv2AuthorityPublicKey" type="text" formControlName="fallbackSv2AuthorityPublicKey" />
+                </div>
+            </div>
+        </ng-container>
+
+        <div class="mt-2">
+            <button pButton [disabled]="!form.dirty || form.invalid" (click)="updateSystem()"
+                class="btn btn-primary mr-2">Save</button>
+            <b style="line-height: 34px;">You must restart this device after saving for changes to take effect.</b>
+        </div>
+
+        <div class="mt-2">
+          <button pButton [disabled]="!savedChanges" (click)="restart()">Restart</button>
+        </div>
+            </form>
+        </div>
+    </div>
+</div>
